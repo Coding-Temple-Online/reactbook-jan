@@ -47,7 +47,6 @@ export default class BlogSingle extends Component
                                 </div>
                                 <div>
                                     <cite> &mdash; {`${ p.user_id?.first_name } ${ p.user_id?.last_name }`}</cite>
-                                    {/* <cite> &mdash; { p.user_id ? p.user_id.first_name : undefined }</cite> */}
                                 </div>
                             </li>
                         </ul>
