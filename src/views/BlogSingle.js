@@ -26,7 +26,7 @@ export default class BlogSingle extends Component
         const p = this.state.p;
 
         return (
-            <main className='container'>
+            <main className='container' data-testid="blog-single-test">
 
                 <Link to="/">&laquo; Go Back</Link>
 
@@ -46,7 +46,6 @@ export default class BlogSingle extends Component
                                 </div>
                                 <div>
                                     <cite> &mdash; {`${ p.user_id?.first_name } ${ p.user_id?.last_name }`}</cite>
-                                    {/* <cite> &mdash; { p.user_id ? p.user_id.first_name : undefined }</cite> */}
                                 </div>
                             </li>
                         </ul>

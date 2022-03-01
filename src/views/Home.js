@@ -3,6 +3,12 @@ import axios from 'axios'
 import moment from 'moment'
 import { Link } from 'react-router-dom'
 
+export const Home = () => {
+  return (
+    <div>Home</div>
+  )
+}
+
 export default class Home extends Component {
 
     constructor() {
@@ -27,8 +33,7 @@ export default class Home extends Component {
   render() {
       console.log('rendered')
     return (
-        <main className='container'>
-
+        <React.Frament>
             <form action="">
                 <div className="row">
                     <div className="col-10">
@@ -65,8 +70,6 @@ export default class Home extends Component {
                     </ul>
                 </div>
             </div>
-
-        </main>
+        </React.Frament>
     )
-  }
 }
