@@ -1,29 +1,34 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import axios from 'axios'
-import moment from 'moment'
-import { Link } from 'react-router-dom'
+import { BlogList } from '../components/BlogList'
+import { DataContext } from '../contexts/DataProvider'
 
 export const Home = () =>
 {
-
-    const [posts, setPosts] = useState([])
-
-    useEffect(() => {
-        axios.get('https://fakebook-january-derek.herokuapp.com/api/v1/blog').then(res => setPosts( res.data ))
-    }, [])
+    const { posts, setPosts } = useContext( DataContext )
     
+    const handleSubmit = ( e ) => {
+        e.preventDefault()
+        // console.log( e.target.status.value )
+        let formData = {
+            body: e.target.status.value,
+            user_id: 2
+        } 
+        e.target.status.value = ''
+        axios.post('https://fakebook-january-derek.herokuapp.com/api/v1/blog', formData).then( res => setPosts( [ res.data, ...posts ] ) )
+    }
 
     return (
         <React.Fragment>
-            <form action="">
+            <form action="" onSubmit={ ( e ) => handleSubmit( e ) }>
                 <div className="row">
                     <div className="col-10">
                         <div className="form-group">
-                            <input type="text" className="form-control" placeholder='Type status here' />
+                            <input type="text" className="form-control" name='status' placeholder='Type status here' />
                         </div>
                     </div>
                     <div className="col-2">
-                        <input type="button" value="Post" className='btn btn-info btn-block' />
+                        <input type="submit" value="Post" className='btn btn-info btn-block' />
                     </div>
                 </div>
             </form>
@@ -33,21 +38,7 @@ export const Home = () =>
             <div className="row">
                 <div className="col-12">
                     <ul className="list-group">
-                        { posts.map( p => (
-                            <li key={ p.id } className="list-group-item">
-                                <div>
-                                    <Link to={ `/blog/${ p.id }` }>{ p.body }</Link>
-                                    <span className="float-right">
-                                        <small>
-                                            { moment( p.date_created ).fromNow() }
-                                        </small>
-                                    </span>
-                                </div>
-                                <div>
-                                    <cite> &mdash; {`${ p.user_id.first_name } ${ p.user_id.last_name }` }</cite>
-                                </div>
-                            </li>
-                        ) ) }
+                        <BlogList />
                     </ul>
                 </div>
             </div>
