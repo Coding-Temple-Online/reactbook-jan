@@ -1,39 +1,20 @@
-import React, { Component } from 'react'
+import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import moment from 'moment'
 import { Link } from 'react-router-dom'
 
-export const Home = () => {
-  return (
-    <div>Home</div>
-  )
-}
+export const Home = () =>
+{
 
-export default class Home extends Component {
+    const [posts, setPosts] = useState([])
 
-    constructor() {
-        super()
-
-        console.log('constructed')
-
-        this.state = {
-            posts: []
-        }
-    }
-
-    componentDidMount() {
-        console.log('mounted')
-        // fetch( 'https://fakebook-january-derek.herokuapp.com/api/v1/blog' )
-        //     .then( res => res.json() )
-        //     .then( data => console.log(data) )
-
-        axios.get( 'https://fakebook-january-derek.herokuapp.com/api/v1/blog' ).then( res => this.setState( { posts: res.data } ) )
-    }
+    useEffect(() => {
+        axios.get('https://fakebook-january-derek.herokuapp.com/api/v1/blog').then(res => setPosts( res.data ))
+    }, [])
     
-  render() {
-      console.log('rendered')
+
     return (
-        <React.Frament>
+        <React.Fragment>
             <form action="">
                 <div className="row">
                     <div className="col-10">
@@ -52,7 +33,7 @@ export default class Home extends Component {
             <div className="row">
                 <div className="col-12">
                     <ul className="list-group">
-                        { this.state.posts.map( p => (
+                        { posts.map( p => (
                             <li key={ p.id } className="list-group-item">
                                 <div>
                                     <Link to={ `/blog/${ p.id }` }>{ p.body }</Link>
@@ -70,6 +51,6 @@ export default class Home extends Component {
                     </ul>
                 </div>
             </div>
-        </React.Frament>
+        </React.Fragment>
     )
 }

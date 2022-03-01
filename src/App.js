@@ -1,5 +1,12 @@
 import React from 'react'
 import { Link, Route, Routes } from 'react-router-dom'
+import { BlogSingle } from './views/BlogSingle'
+import { Home } from './views/Home'
+import { Login } from './views/Login'
+import { Profile } from './views/Profile'
+import { Register } from './views/Register'
+import { ShopCart } from './views/ShopCart'
+import { ShopList } from './views/ShopList'
 
 export const App = () =>
 {
@@ -30,10 +37,10 @@ export const App = () =>
             </ul>
             <ul className="navbar-nav ml-auto">
               <li className="nav-item">
-                <a href="." className="nav-link">Login</a>
+                <Link to="/auth/login" className="nav-link">Login</Link>
               </li>
               <li className="nav-item">
-                <a href="." className="nav-link">Register</a>
+                <Link to="/auth/register" className="nav-link">Register</Link>
               </li>
             </ul>
           </div>
@@ -42,14 +49,14 @@ export const App = () =>
 
       <main className='container'>
         <Routes>
-          {/* <Route exact path='/' element={<Home />} /> */}
-          {/* <Route exact path='/auth/login' element={<Login />} />
+          <Route exact path='/' element={<Home />} />
+          <Route exact path='/auth/login' element={<Login />} />
           <Route exact path='/auth/register' element={<Register />} />
           <Route exact path='/auth/profile' element={<Profile />} />
           <Route exact path='/shop/cart' element={<ShopCart />} />
           <Route exact path='/shop' element={<ShopList />} />
-          <Route exact path='/shop/:id' element={<ShopSingle />} />
-          <Route exact path='/blog/:id' element={<BlogSingle />} /> */}
+          {/* <Route exact path='/shop/:id' element={<ShopSingle />} /> */}
+          <Route exact path='/blog/:id' element={<BlogSingle />} />
         </Routes>
       </main>
 

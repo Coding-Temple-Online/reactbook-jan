@@ -1,9 +1,7 @@
-import React, { Component } from 'react'
+import React from 'react'
 
-export default class ShopCart extends Component {
-  render() {
-    return (
-      <div>ShopCart</div>
-    )
-  }
+export const ShopCart = () => {
+  return (
+    <div>ShopCart</div>
+  )
 }
