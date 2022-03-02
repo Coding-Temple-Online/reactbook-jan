@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { createContext } from 'react'
 import { Link, Route, Routes } from 'react-router-dom'
+import { AuthContext, useAuth } from './contexts/AuthProvider'
 import { BlogSingle } from './views/BlogSingle'
 import { Home } from './views/Home'
 import { Login } from './views/Login'
@@ -10,6 +11,15 @@ import { ShopList } from './views/ShopList'
 
 export const App = () =>
 {
+
+  // const { signIn } = createContext( AuthContext )
+  const { signIn, currentUser, logOut } = useAuth()
+
+  // const handleLogin = (e) => {
+  //   e.preventDefault();
+  //   signIn();
+  // }
+
   return (
     <React.Fragment>
       <header>
@@ -36,12 +46,19 @@ export const App = () =>
               </li>
             </ul>
             <ul className="navbar-nav ml-auto">
-              <li className="nav-item">
-                <Link to="/auth/login" className="nav-link">Login</Link>
-              </li>
-              <li className="nav-item">
-                <Link to="/auth/register" className="nav-link">Register</Link>
-              </li>
+              {/* { condition ? condition to execute if true : condition to execute if false } */}
+              
+              {
+                !currentUser.loggedIn
+                ?
+                <li className="nav-item">
+                  <Link onClick={ () => signIn() } to="." className="nav-link">Login</Link>
+                </li>
+                :
+                <li className="nav-item">
+                  <Link onClick={ () => logOut() } to="." className="nav-link">Logout</Link>
+                </li>
+              }
             </ul>
           </div>
         </nav>

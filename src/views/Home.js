@@ -38,7 +38,7 @@ export const Home = () =>
             <div className="row">
                 <div className="col-12">
                     <ul className="list-group">
-                        <BlogList />
+                        <BlogList posts={ posts } />
                     </ul>
                 </div>
             </div>
