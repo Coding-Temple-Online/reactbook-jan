@@ -47,6 +47,9 @@ export const App = () =>
             </ul>
             <ul className="navbar-nav ml-auto">
               {/* { condition ? condition to execute if true : condition to execute if false } */}
+
+              {/* something = True
+              print( 'hello' ) if something else print('goodbye') */}
               
               {
                 !currentUser.loggedIn

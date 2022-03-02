@@ -11,12 +11,12 @@ export const BlogPost = ( props ) =>
                 <Link to={`/blog/${ p.id }`}>{p.body}</Link>
                 <span className="float-right">
                     <small>
-                        {moment(p.date_created).fromNow()}
+                        {moment(p.dateCreated.toDate()).fromNow()}
                     </small>
                 </span>
             </div>
             <div>
-                <cite> &mdash; {`${ p.user_id.first_name } ${ p.user_id.last_name }`}</cite>
+                <cite> &mdash; {`${ p.user.name }`}</cite>
             </div>
         </li>
     )
