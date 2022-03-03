@@ -1,21 +1,26 @@
-import React, { useContext, useEffect, useState } from 'react'
-import axios from 'axios'
+import React, { useContext } from 'react'
 import { BlogList } from '../components/BlogList'
 import { DataContext } from '../contexts/DataProvider'
+import { addDoc, collection, getFirestore, serverTimestamp } from 'firebase/firestore'
+import { useAuth } from '../contexts/AuthProvider'
 
 export const Home = () =>
 {
-    const { posts, setPosts } = useContext( DataContext )
+    const { currentUser } = useAuth()
+    const { posts, setPosts, addPost } = useContext( DataContext )
+    const db = getFirestore()
     
-    const handleSubmit = ( e ) => {
+    const handleSubmit = async ( e ) => {
         e.preventDefault()
-        // console.log( e.target.status.value )
+        
         let formData = {
             body: e.target.status.value,
-            user_id: 2
-        } 
+            dateCreated: serverTimestamp(),
+        }
+
+        addPost( formData )
+        
         e.target.status.value = ''
-        axios.post('https://fakebook-january-derek.herokuapp.com/api/v1/blog', formData).then( res => setPosts( [ res.data, ...posts ] ) )
     }
 
     return (
