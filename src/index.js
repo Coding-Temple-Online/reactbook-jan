@@ -6,6 +6,7 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import { DataProvider } from './contexts/DataProvider';
 import { AuthProvider } from './contexts/AuthProvider';
+import { firebaseApp } from './firebase/config'
 
 ReactDOM.render(
   <React.StrictMode>

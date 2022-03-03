@@ -10,6 +10,10 @@ export const BlogSingle = () =>
     const match = useMatch("/blog/:id")
     const paramId = match.params.id
 
+    // just so we won't get any ugly 'undefined' messages before our data loads, we're going to create a loading state that
+    // shows text instead of 'undefined'
+    const [loadingState, setloadingState] = useState(false)
+
     const db = getFirestore()
     
     const getPost = useCallback(
@@ -30,15 +34,18 @@ export const BlogSingle = () =>
 
                 // if the document is found set the post data
                 if ( doc.id === paramId ) {
+
                     setP({
                         id: doc.id,
                         ...doc.data(),
                         user: { ...userRef.data() }
                     })
+
+                    setloadingState(true)
                 }
             })
         },  
-        [ paramId, db ],
+        [ paramId ],
     )
 
     useEffect( () => {
@@ -58,21 +65,27 @@ export const BlogSingle = () =>
 
             <div className="row">
                 <div className="col-12">
-                    <ul className="list-group">
-                        <li key={p.id} className="list-group-item">
-                            <div>
-                                {p.body}
-                                <span className="float-right">
-                                    <small>
-                                        {moment(p.date_created.toDate()).fromNow()}
-                                    </small>
-                                </span>
-                            </div>
-                            <div>
-                                <cite> &mdash; {`${ p.user.name }`}</cite>
-                            </div>
-                        </li>
-                    </ul>
+                   {
+                       !loadingState
+                       ?
+                        <h2>Loading post...</h2>
+                       :
+                        <ul className="list-group">
+                            <li key={p.id} className="list-group-item">
+                                <div>
+                                    {p.body}
+                                    <span className="float-right">
+                                        <small>
+                                            {moment(p.dateCreated?.toDate()).fromNow()}
+                                        </small>
+                                    </span>
+                                </div>
+                                <div>
+                                    <cite> &mdash; {`${ p.user?.name }`}</cite>
+                                </div>
+                            </li>
+                        </ul>
+                   }
                 </div>
             </div>
         </React.Fragment>

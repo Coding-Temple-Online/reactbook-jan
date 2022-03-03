@@ -17,6 +17,7 @@ export const AuthProvider = ( { children } ) => {
     const db = getFirestore()
     
     function signIn() {
+        // determine where and if we want to store the user's information who's trying to log in
         return setPersistence( auth, browserLocalPersistence )
                 .then( () => {
                     signInWithPopup( auth, provider )
@@ -57,7 +58,7 @@ export const AuthProvider = ( { children } ) => {
                 })
             }
         } )
-    }, [ auth, db ])
+    }, [ auth ])
     
 
     const values = {
