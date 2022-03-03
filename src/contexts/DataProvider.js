@@ -1,7 +1,5 @@
-import axios from "axios";
-import { collection, getDocs, getDoc, getFirestore, orderBy, query, collectionGroup } from "firebase/firestore";
+import { getDocs, getDoc, getFirestore, query, collectionGroup } from "firebase/firestore";
 import { createContext, useCallback, useEffect, useState } from "react";
-import { firebaseApp } from '../firebase/config';
 
 export const DataContext = createContext()
 
@@ -11,9 +9,9 @@ export const DataProvider = ( props ) => {
 
     const db = getFirestore()
 
+    // loop over posts collection and setPosts
     const getPosts = useCallback(
       async () => {
-        //   const q = query( collection( db, 'posts' ), orderBy( 'dateCreated', 'desc' ) );
           const q = query( collectionGroup( db, 'posts' ) )
 
           const querySnapshot = await getDocs( q )
@@ -28,12 +26,9 @@ export const DataProvider = ( props ) => {
                   ...doc.data(),
                   user: { ...userRef.data() }
               })
-            //   console.log( doc.data() )
             setPosts( newPosts )
           } )
 
-
-        //   console.log(querySnapshot)
         return querySnapshot;
       },
       [ db ],
@@ -42,15 +37,12 @@ export const DataProvider = ( props ) => {
 
     useEffect(() =>
     {
-        // axios.get('https://fakebook-january-derek.herokuapp.com/api/v1/blog').then(res => setPosts(res.data))
         getPosts()
     }, [ getPosts ])
     
-    useEffect(() => {
-        console.log(firebaseApp)
-    }, [])
-    
-    
+    // useEffect(() => {
+    //     console.log(firebaseApp)
+    // }, [])
 
     const values = {
         posts, setPosts

@@ -1,5 +1,4 @@
-import axios from 'axios'
-import React, { useEffect, useState, useContext } from 'react'
+import React, { useContext } from 'react'
 import { BlogPost } from './BlogPost'
 import { DataContext } from '../contexts/DataProvider'
 

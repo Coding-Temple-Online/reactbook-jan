@@ -21,7 +21,8 @@ export const AuthProvider = ( { children } ) => {
                 .then( () => {
                     signInWithPopup( auth, provider )
                         .then( result => {
-                            console.log( result )
+                            // console.log( result )
+                            console.log( 'User logged in successfully' )
                         } )
                 } )
                 .catch( err => console.error( err ) )
@@ -36,7 +37,7 @@ export const AuthProvider = ( { children } ) => {
     }
 
     useEffect(() => {
-        console.log( currentUser )
+        // console.log( currentUser )
         onAuthStateChanged( auth, ( user ) => {
             if ( user ) {
 
@@ -56,7 +57,7 @@ export const AuthProvider = ( { children } ) => {
                 })
             }
         } )
-    }, [ auth ])
+    }, [ auth, db ])
     
 
     const values = {

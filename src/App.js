@@ -1,6 +1,6 @@
-import React, { createContext } from 'react'
+import React from 'react'
 import { Link, Route, Routes } from 'react-router-dom'
-import { AuthContext, useAuth } from './contexts/AuthProvider'
+import { useAuth } from './contexts/AuthProvider'
 import { BlogSingle } from './views/BlogSingle'
 import { Home } from './views/Home'
 import { Login } from './views/Login'

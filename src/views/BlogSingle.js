@@ -1,5 +1,4 @@
-import axios from 'axios'
-import { collectionGroup, doc, getDoc, getDocs, getFirestore, query } from 'firebase/firestore'
+import { collectionGroup, getDoc, getDocs, getFirestore, query } from 'firebase/firestore'
 import moment from 'moment'
 import React, { useCallback, useEffect, useState } from 'react'
 import { Link, useMatch } from 'react-router-dom'
@@ -7,6 +6,7 @@ import { Link, useMatch } from 'react-router-dom'
 export const BlogSingle = () =>
 {
     const [p, setP] = useState({})
+    // pull the parameter id from the url
     const match = useMatch("/blog/:id")
     const paramId = match.params.id
 
@@ -14,17 +14,22 @@ export const BlogSingle = () =>
     
     const getPost = useCallback(
         async () => {
+            // firebase 'users' collection has 'posts' subcollection
+            // here we are pulling all subcollections with a name of 'posts'
             const q = query(collectionGroup(db, 'posts'))
 
+            // get all the documents from the query
             const querySnapshot = await getDocs(q)
 
-            // let newPosts = [];
+            // loop through posts 
             querySnapshot.forEach(async doc =>
             {
+                // get the current user's posts
                 const userRef = await getDoc(doc.ref.parent.parent);
                 // console.log(userRef.data())
 
-                if ( doc.id === paramId) {
+                // if the document is found set the post data
+                if ( doc.id === paramId ) {
                     setP({
                         id: doc.id,
                         ...doc.data(),
@@ -33,25 +38,17 @@ export const BlogSingle = () =>
                 }
             })
         },  
-        [ paramId ],
+        [ paramId, db ],
     )
 
     useEffect( () => {
-        // const docRef = doc( db, 'posts', paramId )
-        // console.log(docRef)
-        // const docSnapShot = await getDoc(docRef )
-        // console.log(docSnapShot.exists())
-        // console.log(docSnapShot.data())
         getPost();
     }, [ getPost ])
     
-
-    useEffect(() => {
-        axios.get(`https://fakebook-january-derek.herokuapp.com/api/v1/blog/${ paramId }`).then(res => setP( res.data ))
-      
-    }, [paramId])
-    
-
+    // no longer pulling posts from our api
+    // useEffect(() => {
+    //     axios.get(`https://fakebook-january-derek.herokuapp.com/api/v1/blog/${ paramId }`).then(res => setP( res.data ))
+    // }, [paramId])
 
     return (
         <React.Fragment>
