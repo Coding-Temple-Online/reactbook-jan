@@ -8,6 +8,7 @@ import { Profile } from './views/Profile'
 import { Register } from './views/Register'
 import { ShopCart } from './views/ShopCart'
 import { ShopList } from './views/ShopList'
+import { Unauthorized } from './views/Unauthorized'
 
 export const App = () =>
 {
@@ -68,16 +69,22 @@ export const App = () =>
       </header>
 
       <main className='container'>
-        <Routes>
-          <Route exact path='/' element={<Home />} />
-          <Route exact path='/auth/login' element={<Login />} />
-          <Route exact path='/auth/register' element={<Register />} />
-          <Route exact path='/auth/profile' element={<Profile />} />
-          <Route exact path='/shop/cart' element={<ShopCart />} />
-          <Route exact path='/shop' element={<ShopList />} />
-          {/* <Route exact path='/shop/:id' element={<ShopSingle />} /> */}
-          <Route exact path='/blog/:id' element={<BlogSingle />} />
-        </Routes>
+        {
+          !currentUser.loggedIn
+          ?
+            <Unauthorized />
+          :
+            <Routes>
+              <Route exact path='/' element={<Home />} />
+              <Route exact path='/auth/login' element={<Login />} />
+              <Route exact path='/auth/register' element={<Register />} />
+              <Route exact path='/auth/profile' element={<Profile />} />
+              <Route exact path='/shop/cart' element={<ShopCart />} />
+              <Route exact path='/shop' element={<ShopList />} />
+              {/* <Route exact path='/shop/:id' element={<ShopSingle />} /> */}
+              <Route exact path='/blog/:id' element={<BlogSingle />} />
+            </Routes>
+        }
       </main>
 
       <footer>
