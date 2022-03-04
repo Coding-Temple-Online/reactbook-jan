@@ -45,7 +45,7 @@ export const BlogSingle = () =>
                 }
             })
         },  
-        [ paramId ],
+        [ db, paramId ],
     )
 
     useEffect( () => {

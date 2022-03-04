@@ -1,4 +1,4 @@
-import { getDocs, getDoc, getFirestore, query, collectionGroup, collection, addDoc } from "firebase/firestore";
+import { getDocs, getDoc, getFirestore, query, collectionGroup, collection, addDoc, orderBy } from "firebase/firestore";
 import { createContext, useCallback, useEffect, useState } from "react";
 import { useAuth } from "./AuthProvider";
 
@@ -15,7 +15,7 @@ export const DataProvider = (props) =>
     const getPosts = useCallback(
         async () =>
         {
-            const q = query(collectionGroup(db, 'posts'))
+            const q = query( collectionGroup(db, 'posts'), orderBy( 'dateCreated', 'desc' ) )
 
             const querySnapshot = await getDocs(q)
 
@@ -23,7 +23,6 @@ export const DataProvider = (props) =>
             querySnapshot.forEach(async doc =>
             {
                 const userRef = await getDoc(doc.ref.parent.parent);
-                console.log(userRef.data())
 
                 newPosts.push({
                     id: doc.id,
@@ -40,11 +39,11 @@ export const DataProvider = (props) =>
 
     const addPost = async (formData) =>
     {
-        let collectionRef = await collection(db, `users/${ currentUser.id }/posts`)
-
-
-        await addDoc(collectionRef, formData)
-        setPosts([ ...posts ])
+        let collectionRef = await collection( db, `users/${ currentUser.id }/posts` )
+        const docRef = await addDoc( collectionRef, formData )
+        const newDoc = await getDoc( docRef )
+        const userRef = await getDoc( docRef.parent.parent );
+        setPosts([ { id: newDoc.id, ...newDoc.data(), user: { ...userRef.data() } }, ...posts ])
     }
 
 

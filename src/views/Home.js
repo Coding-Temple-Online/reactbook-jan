@@ -1,14 +1,11 @@
 import React, { useContext } from 'react'
 import { BlogList } from '../components/BlogList'
 import { DataContext } from '../contexts/DataProvider'
-import { addDoc, collection, getFirestore, serverTimestamp } from 'firebase/firestore'
-import { useAuth } from '../contexts/AuthProvider'
+import { serverTimestamp } from 'firebase/firestore'
 
 export const Home = () =>
 {
-    const { currentUser } = useAuth()
-    const { posts, setPosts, addPost } = useContext( DataContext )
-    const db = getFirestore()
+    const { posts, addPost } = useContext( DataContext )
     
     const handleSubmit = async ( e ) => {
         e.preventDefault()

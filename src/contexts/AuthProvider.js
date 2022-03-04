@@ -58,7 +58,7 @@ export const AuthProvider = ( { children } ) => {
                 })
             }
         } )
-    }, [ auth ])
+    }, [ db, auth ])
     
 
     const values = {
