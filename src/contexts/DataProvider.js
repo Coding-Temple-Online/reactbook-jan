@@ -27,7 +27,7 @@ export const DataProvider = (props) =>
                 newPosts.push({
                     id: doc.id,
                     ...doc.data(),
-                    user: { ...userRef.data() }
+                    user: { id: userRef.id, ...userRef.data() }
                 })
                 setPosts( posts.concat(newPosts) )
             })

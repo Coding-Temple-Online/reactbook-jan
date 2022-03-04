@@ -13,13 +13,7 @@ import { Unauthorized } from './views/Unauthorized'
 export const App = () =>
 {
 
-  // const { signIn } = createContext( AuthContext )
   const { signIn, currentUser, logOut } = useAuth()
-
-  // const handleLogin = (e) => {
-  //   e.preventDefault();
-  //   signIn();
-  // }
 
   return (
     <React.Fragment>

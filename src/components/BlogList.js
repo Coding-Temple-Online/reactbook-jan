@@ -6,11 +6,11 @@ import { DataContext } from '../contexts/DataProvider'
 export const BlogList = ( props ) =>
 {
 
-    const { posts } = useContext( DataContext )
+    // const { posts } = useContext( DataContext )
 
     return (
         <React.Fragment>
-            { posts.map(p => <BlogPost post={ p } key={p.id} /> ) }
+            { props.posts.map(p => <BlogPost post={ p } key={p.id} /> ) }
         </React.Fragment>
     )
 }
