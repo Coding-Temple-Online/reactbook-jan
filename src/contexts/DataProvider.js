@@ -43,7 +43,14 @@ export const DataProvider = (props) =>
         const docRef = await addDoc( collectionRef, formData )
         const newDoc = await getDoc( docRef )
         const userRef = await getDoc( docRef.parent.parent );
-        setPosts([ { id: newDoc.id, ...newDoc.data(), user: { ...userRef.data() } }, ...posts ])
+        let newPost = { 
+            id: newDoc.id, 
+            ...newDoc.data(), 
+            user: { 
+                ...userRef.data() 
+            } 
+        }
+        setPosts([ newPost, ...posts ])
     }
 
 

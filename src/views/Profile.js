@@ -1,5 +1,5 @@
-import { serverTimestamp } from 'firebase/firestore'
-import React, { useContext, useEffect, useState } from 'react'
+import { addDoc, collection, getDoc, getFirestore, serverTimestamp } from 'firebase/firestore'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { BlogList } from '../components/BlogList'
 import { useAuth } from '../contexts/AuthProvider'
 import { DataContext } from '../contexts/DataProvider'
@@ -8,10 +8,19 @@ export const Profile = () =>
 {
 
   const { currentUser } = useAuth()
-  const { addPost } = useContext(DataContext)
+  // const { addPost } = useContext(DataContext)
   const [ filteredPosts, setFilteredPosts ] = useState([])
   const { posts } = useContext(DataContext)
+  const db = getFirestore()
 
+  const getFilteredPosts = useCallback(
+    () => {
+      let filteredPosts = posts.filter(p => p.user.id === currentUser.id)
+      setFilteredPosts( filteredPosts )
+    },
+    [ currentUser.id, posts ],
+  )
+  
 
   const handleSubmit = async (e) =>
   {
@@ -22,16 +31,27 @@ export const Profile = () =>
       dateCreated: serverTimestamp(),
     }
 
-    addPost(formData)
+    let collectionRef = await collection(db, `users/${ currentUser.id }/posts`)
+    const docRef = await addDoc(collectionRef, formData)
+    const newDoc = await getDoc(docRef)
+    const userRef = await getDoc(docRef.parent.parent);
+
+    let newPost = {
+      id: newDoc.id,
+      ...newDoc.data(),
+      user: {
+        ...userRef.data()
+      }
+    }
 
     e.target.status.value = ''
+
+    setFilteredPosts([ newPost, ...posts ])
   }
 
   useEffect(() => {
-    console.log(posts)
-    let filteredPosts = posts.filter( p => p.user.id === currentUser.id )
-    setFilteredPosts( filteredPosts )
-  }, [ currentUser.id, posts ])
+    getFilteredPosts()
+  }, [ getFilteredPosts ])
   
 
   return (
